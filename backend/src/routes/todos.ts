@@ -3,6 +3,7 @@ import {
   createTodo,
   allTodos,
   updateTodo,
+  deleteTodo,
 } from "../controller/Todo.controller";
 
 export const todosRouter = Router();
@@ -19,3 +20,4 @@ export const todosRouter = Router();
 todosRouter.get("/todos", allTodos);
 todosRouter.post("/createTodo", createTodo);
 todosRouter.put("/updateTodo/:id", updateTodo);
+todosRouter.delete("/deleteTodo/:id", deleteTodo);

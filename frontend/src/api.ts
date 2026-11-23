@@ -35,3 +35,13 @@ export const updateTodo = async (
   }
   return response.json();
 };
+
+export const deleteTodo = async (id: string) => {
+  const response = await fetch(API_URL + "deleteTodo/" + id, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Could not delete the todo");
+  }
+  return response.json();
+};
