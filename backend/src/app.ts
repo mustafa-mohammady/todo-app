@@ -13,7 +13,7 @@ app.use(express.json());
 app.get("/api/health", (_request, response) => {
   response.json({ status: "ok" });
 });
-app.use("/api/todos", todosRouter);
+app.use("/api", todosRouter);
 
 // Always last: the 404 handler, then the error handler.
 app.use(notFound);

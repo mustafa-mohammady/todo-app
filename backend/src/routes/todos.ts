@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { createTodo, allTodos } from "../controller/Todo.controller";
 
 export const todosRouter = Router();
 
@@ -10,3 +11,6 @@ export const todosRouter = Router();
 // DELETE /api/todos/:id   -> 204 without a body, 404 for an unknown id
 //
 // The contract is in docs/api-contract.md at the root of the project.
+
+todosRouter.get("/todos", allTodos);
+todosRouter.post("/createTodo", createTodo);
