@@ -4,6 +4,8 @@ import { API_URL, fetcher } from "./api";
 import AddTodoForm from "./components/AddTodoForm";
 import SearchBar from "./components/SearchBar";
 import TodoItem from "./components/TodoItem";
+import EditTodoModal from "./components/EditTodoModal";
+import DeleteTodoModal from "./components/DeleteTodoModal";
 import useSWR from "swr";
 
 export default function App() {
@@ -13,6 +15,10 @@ export default function App() {
   );
 
   const todos = data ?? [];
+
+  // The todo whose popup is open, or null when no popup is open.
+  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+  const [deletingTodo, setDeletingTodo] = useState<Todo | null>(null);
 
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-10 sm:py-16">
@@ -38,11 +44,32 @@ export default function App() {
         ) : (
           <ul className="divide-y divide-slate-100">
             {todos.map((todo) => (
-              <TodoItem key={todo.id} todo={todo} />
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onEdit={() => setEditingTodo(todo)}
+                onDelete={() => setDeletingTodo(todo)}
+              />
             ))}
           </ul>
         )}
       </div>
+
+      {editingTodo && (
+        <EditTodoModal
+          todo={editingTodo}
+          open={true}
+          onClose={() => setEditingTodo(null)}
+          onUpdated={() => mutate()}
+        />
+      )}
+      {deletingTodo && (
+        <DeleteTodoModal
+          todo={deletingTodo}
+          open={true}
+          onClose={() => setDeletingTodo(null)}
+        />
+      )}
     </main>
   );
 }
