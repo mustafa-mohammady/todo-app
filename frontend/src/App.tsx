@@ -6,6 +6,7 @@ import SearchBar from "./components/SearchBar";
 import TodoItem from "./components/TodoItem";
 import EditTodoModal from "./components/EditTodoModal";
 import DeleteTodoModal from "./components/DeleteTodoModal";
+import Toast from "./components/Toast";
 import useSWR from "swr";
 
 export default function App() {
@@ -19,6 +20,9 @@ export default function App() {
   // The todo whose popup is open, or null when no popup is open.
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
   const [deletingTodo, setDeletingTodo] = useState<Todo | null>(null);
+
+  // The text of the notification, or null when no notification is showing.
+  const [notification, setNotification] = useState<string | null>(null);
 
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-10 sm:py-16">
@@ -67,8 +71,16 @@ export default function App() {
         <DeleteTodoModal
           todo={deletingTodo}
           open={true}
+          onDeleted={() => {
+            mutate();
+            setNotification(`"${deletingTodo.title}" was deleted`);
+          }}
           onClose={() => setDeletingTodo(null)}
         />
+      )}
+
+      {notification && (
+        <Toast message={notification} onClose={() => setNotification(null)} />
       )}
     </main>
   );

@@ -2,6 +2,7 @@
 // Look at the Book model of Backend MongoDB: it has the same shape.
 // A todo has a `title` (a required string, trimmed) and `done` (a boolean, default `false`).
 // The types `Todo` and `NewTodo` are already in `../types.ts`.
+
 import { HydratedDocument, model, Schema } from "mongoose";
 import { NewTodo, Todo } from "../types";
 

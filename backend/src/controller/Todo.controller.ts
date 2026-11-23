@@ -28,10 +28,20 @@ export const updateTodo = async (request: Request, response: Response) => {
     { title: request.body.title, done: request.body.done },
     { new: true, runValidators: true },
   );
-
   if (!task) {
     response.status(404).json({ error: "Todo not found" });
     return;
   }
   response.status(200).json(toTodo(task));
+};
+
+// delete the task
+export const deleteTodo = async (request: Request, response: Response) => {
+  const id = request.params.id;
+  const task = await tasksModel.findByIdAndDelete(id);
+  if (!task) {
+    response.status(404).json({ error: "Todo not found" });
+    return;
+  }
+  response.status(200).json({ message: "successfully!" });
 };
