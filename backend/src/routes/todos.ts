@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { createTodo, allTodos } from "../controller/Todo.controller";
+import {
+  createTodo,
+  allTodos,
+  updateTodo,
+} from "../controller/Todo.controller";
 
 export const todosRouter = Router();
 
@@ -14,3 +18,4 @@ export const todosRouter = Router();
 
 todosRouter.get("/todos", allTodos);
 todosRouter.post("/createTodo", createTodo);
+todosRouter.put("/updateTodo/:id", updateTodo);
