@@ -1,5 +1,6 @@
 import { FormEvent } from "react";
 import { createTodo } from "../api";
+import { BTN, INPUT, INPUT_NORMAL } from "../classes";
 
 type AddTodoFormProps = {
   onAdded: () => void;
@@ -28,11 +29,11 @@ export default function AddTodoForm({ onAdded }: AddTodoFormProps) {
         name="title"
         type="text"
         placeholder="What needs to be done?"
-        className="h-10 min-w-0 flex-1 rounded-lg border border-slate-200 px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+        className={`${INPUT} ${INPUT_NORMAL} min-w-0 flex-1 px-3`}
       />
       <button
         type="submit"
-        className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-lg bg-indigo-600 px-4 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:opacity-50"
+        className={`${BTN} inline-flex shrink-0 items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 focus-visible:outline-indigo-600`}
       >
         <svg
           aria-hidden="true"
