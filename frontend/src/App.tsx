@@ -17,21 +17,17 @@ export default function App() {
 
   const todos = data ?? [];
 
-  // The todo whose popup is open, or null when no popup is open.
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
   const [deletingTodo, setDeletingTodo] = useState<Todo | null>(null);
 
-  // The text of the notification, or null when no notification is showing.
   const [notification, setNotification] = useState<string | null>(null);
 
-  // The text in the search box. Only todos whose title contains it are shown.
   const [search, setSearch] = useState("");
   const searchText = search.trim().toLowerCase();
   const visibleTodos = todos.filter((todo) =>
     todo.title.toLowerCase().includes(searchText),
   );
 
-  // Ticking the checkbox saves the opposite of the current `done` value.
   const handleToggle = async (todo: Todo) => {
     await updateTodo(todo.id, todo.title, !todo.done);
     mutate();
@@ -96,6 +92,7 @@ export default function App() {
           onUpdated={() => mutate()}
         />
       )}
+
       {deletingTodo && (
         <DeleteTodoModal
           todo={deletingTodo}

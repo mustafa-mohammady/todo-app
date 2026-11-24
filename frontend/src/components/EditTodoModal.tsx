@@ -1,6 +1,6 @@
 import { updateTodo } from "../api";
 import type { Todo } from "../types";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 
 type EditTodoModalProps = {
   todo: Todo;
@@ -15,21 +15,22 @@ export default function EditTodoModal({
   onClose,
   onUpdated,
 }: EditTodoModalProps) {
+  const [error, setError] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>(todo.title);
   if (!open) {
     return null;
   }
 
   const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formEelement = e.currentTarget;
-    const formData = new FormData(formEelement);
-    const title = String(formData.get("title")).trim();
+    const new_title = title.trim();
     const id = todo.id;
-    if (title !== "") {
-      // Done is changed with the button on the row, so keep its current value here.
+    if (new_title !== "") {
       await updateTodo(id, title, todo.done);
       onUpdated();
       onClose();
+    } else {
+      setError(true);
     }
   };
 
@@ -46,7 +47,7 @@ export default function EditTodoModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-todo-heading"
-        className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl ring-1 ring-slate-200"
+        className="relative w-full  max-w-md rounded-2xl bg-white p-6 shadow-xl ring-1 ring-slate-200"
       >
         <div className="flex items-start justify-between gap-4">
           <h2
@@ -84,8 +85,16 @@ export default function EditTodoModal({
               id="edit-title"
               name="title"
               type="text"
-              defaultValue={todo.title}
-              className="h-10 w-full rounded-lg border border-slate-200 px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              onChange={(e) => {
+                setTitle(e.target.value);
+                setError(e.target.value.trim() === "");
+              }}
+              value={title}
+              className={`h-10 w-full rounded-lg border px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 ${
+                error
+                  ? "border-red-600 focus:border-red-600 focus:ring-red-500/20"
+                  : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-500/20"
+              }`}
             />
           </div>
 
