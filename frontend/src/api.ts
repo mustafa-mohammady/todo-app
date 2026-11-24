@@ -1,6 +1,7 @@
 import { Todo } from "./types";
 // The backend allows requests from http://localhost:5173 (CORS), so the frontend can call it directly.
-export const API_URL = "http://localhost:3010/api/";
+export const API_URL =
+  import.meta.env.VITE_API_URL ?? "http://localhost:3010/api/";
 // Throws when the server answers with an error, so SWR puts it in `error` instead of `data`.
 
 // Put all functions that talk to the API here (fetcher for `useSWR`, create, update, delete),
