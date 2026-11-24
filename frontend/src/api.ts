@@ -1,5 +1,6 @@
 import { Todo } from "./types";
-// The backend allows requests from http://localhost:5173 (CORS), so the frontend can call it directly.
+// The backend address. On Render, VITE_API_URL is set in the frontend service's Environment.
+// Locally it isn't needed: the fallback is the local backend.
 export const API_URL =
   import.meta.env.VITE_API_URL ?? "http://localhost:3010/api/";
 // Throws when the server answers with an error, so SWR puts it in `error` instead of `data`.

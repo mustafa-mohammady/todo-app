@@ -11,8 +11,12 @@ try {
 } catch {
   // No .env file: fine, the variables may come from the environment.
 }
-// The React app runs on another origin (http://localhost:5173), so the browser needs CORS headers.
-app.use(cors({ origin: process.env.FRONTEND_URL }));
+// The React app runs on another origin, so the browser needs CORS headers.
+// Allowed: the deployed frontend (FRONTEND_URL) and the local Vite dev server.
+const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5173"].filter(
+  (origin): origin is string => Boolean(origin),
+);
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 app.get("/api/health", (_request, response) => {
