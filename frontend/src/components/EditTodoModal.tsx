@@ -1,6 +1,19 @@
 import { updateTodo } from "../api";
 import type { Todo } from "../types";
 import { FormEvent, useState } from "react";
+import {
+  BTN,
+  BTN_SECONDARY,
+  ICON_BTN,
+  INPUT,
+  INPUT_ERROR,
+  INPUT_NORMAL,
+  MODAL_ACTIONS,
+  MODAL_BACKDROP,
+  MODAL_PANEL,
+  MODAL_TITLE,
+  MODAL_WRAPPER,
+} from "../classes";
 
 type EditTodoModalProps = {
   todo: Todo;
@@ -35,32 +48,25 @@ export default function EditTodoModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
+    <div className={MODAL_WRAPPER}>
       {/* Backdrop */}
-      <div
-        aria-hidden="true"
-        onClick={onClose}
-        className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
-      />
+      <div aria-hidden="true" onClick={onClose} className={MODAL_BACKDROP} />
 
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-todo-heading"
-        className="relative w-full  max-w-md rounded-2xl bg-white p-6 shadow-xl ring-1 ring-slate-200"
+        className={MODAL_PANEL}
       >
         <div className="flex items-start justify-between gap-4">
-          <h2
-            id="edit-todo-heading"
-            className="text-lg font-semibold text-slate-900"
-          >
+          <h2 id="edit-todo-heading" className={MODAL_TITLE}>
             Edit todo
           </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="-m-2 inline-flex size-10 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+            className={`-m-2 ${ICON_BTN} text-slate-400 hover:bg-slate-100 hover:text-slate-700`}
           >
             <svg
               aria-hidden="true"
@@ -90,25 +96,19 @@ export default function EditTodoModal({
                 setError(e.target.value.trim() === "");
               }}
               value={title}
-              className={`h-10 w-full rounded-lg border px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 ${
-                error
-                  ? "border-red-600 focus:border-red-600 focus:ring-red-500/20"
-                  : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-500/20"
+              className={`${INPUT} w-full px-3 ${
+                error ? INPUT_ERROR : INPUT_NORMAL
               }`}
             />
           </div>
 
-          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <button
-              type="button"
-              onClick={onClose}
-              className="h-10 rounded-lg px-4 text-sm font-medium cursor-pointer text-slate-600 ring-1 ring-slate-200 transition-colors hover:bg-slate-50"
-            >
+          <div className={MODAL_ACTIONS}>
+            <button type="button" onClick={onClose} className={BTN_SECONDARY}>
               Cancel
             </button>
             <button
               type="submit"
-              className="h-10 rounded-lg bg-orange-600 px-4 text-sm font-medium text-white transition-colors cursor-pointer hover:bg-amber-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className={`${BTN} bg-orange-600 hover:bg-amber-700 focus-visible:outline-indigo-600`}
             >
               Save changes
             </button>

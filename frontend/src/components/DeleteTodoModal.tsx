@@ -1,5 +1,14 @@
 import { deleteTodo } from "../api";
 import type { Todo } from "../types";
+import {
+  BTN,
+  BTN_SECONDARY,
+  MODAL_ACTIONS,
+  MODAL_BACKDROP,
+  MODAL_PANEL,
+  MODAL_TITLE,
+  MODAL_WRAPPER,
+} from "../classes";
 
 type DeleteTodoModalProps = {
   todo: Todo;
@@ -25,20 +34,16 @@ export default function DeleteTodoModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
+    <div className={MODAL_WRAPPER}>
       {/* Backdrop */}
-      <div
-        aria-hidden="true"
-        onClick={onClose}
-        className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
-      />
+      <div aria-hidden="true" onClick={onClose} className={MODAL_BACKDROP} />
 
       <div
         role="alertdialog"
         aria-modal="true"
         aria-labelledby="delete-todo-heading"
         aria-describedby="delete-todo-text"
-        className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl ring-1 ring-slate-200"
+        className={MODAL_PANEL}
       >
         <div className="flex gap-4">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-red-100">
@@ -56,10 +61,7 @@ export default function DeleteTodoModal({
             </svg>
           </div>
           <div className="min-w-0">
-            <h2
-              id="delete-todo-heading"
-              className="text-lg font-semibold text-slate-900"
-            >
+            <h2 id="delete-todo-heading" className={MODAL_TITLE}>
               Delete todo?
             </h2>
             <p id="delete-todo-text" className="mt-1 text-sm text-slate-500">
@@ -71,18 +73,14 @@ export default function DeleteTodoModal({
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            onClick={onClose}
-            className="h-10 rounded-lg px-4 text-sm font-medium text-slate-600 ring-1 ring-slate-200 transition-colors hover:bg-slate-50"
-          >
+        <div className={`mt-6 ${MODAL_ACTIONS}`}>
+          <button type="button" onClick={onClose} className={BTN_SECONDARY}>
             Cancel
           </button>
           <button
             type="button"
             onClick={handleDelete}
-            className="h-10 rounded-lg bg-red-600 px-4 text-sm font-medium text-white transition-colors hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+            className={`${BTN} bg-red-600 hover:bg-red-700 focus-visible:outline-red-600`}
           >
             Delete
           </button>

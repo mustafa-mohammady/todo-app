@@ -1,4 +1,5 @@
 import type { Todo } from "../types";
+import { ICON_BTN } from "../classes";
 
 type TodoItemProps = {
   todo: Todo;
@@ -34,7 +35,7 @@ export default function TodoItem({
               : `Mark "${todo.title}" as done`
           }
           title={todo.done ? "Mark as not done" : "Mark as done"}
-          className={`inline-flex size-10 cursor-pointer items-center justify-center rounded-lg transition-colors ${
+          className={`${ICON_BTN} ${
             todo.done
               ? "text-emerald-600 hover:bg-emerald-50"
               : "text-slate-400 hover:bg-emerald-50 hover:text-emerald-600"
@@ -73,7 +74,7 @@ export default function TodoItem({
           type="button"
           onClick={onEdit}
           aria-label={`Edit "${todo.title}"`}
-          className="inline-flex size-10 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+          className={`${ICON_BTN} text-slate-400 hover:bg-slate-100 hover:text-slate-700`}
         >
           <svg
             aria-hidden="true"
@@ -89,7 +90,7 @@ export default function TodoItem({
           type="button"
           onClick={onDelete}
           aria-label={`Delete "${todo.title}"`}
-          className="inline-flex size-10 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
+          className={`${ICON_BTN} text-slate-400 hover:bg-red-50 hover:text-red-600`}
         >
           <svg
             aria-hidden="true"
