@@ -6,6 +6,7 @@ export const API_URL = "http://localhost:3010/api/";
 // Put all functions that talk to the API here (fetcher for `useSWR`, create, update, delete),
 // so that your components never call `fetch` themselves.
 
+// SWR fetcher
 export const fetcher = async (url: string) => {
   const response = await fetch(url);
   if (!response.ok) {
@@ -14,6 +15,7 @@ export const fetcher = async (url: string) => {
   return response.json();
 };
 
+// create new todo
 export const createTodo = async (title: string): Promise<Todo> => {
   const response = await fetch(API_URL + "createTodo", {
     method: "POST",
@@ -26,6 +28,7 @@ export const createTodo = async (title: string): Promise<Todo> => {
   return response.json();
 };
 
+// update todo
 export const updateTodo = async (
   id: string,
   title: string,
@@ -42,6 +45,7 @@ export const updateTodo = async (
   return response.json();
 };
 
+// delete todo
 export const deleteTodo = async (id: string) => {
   const response = await fetch(API_URL + "deleteTodo/" + id, {
     method: "DELETE",
