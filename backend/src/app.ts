@@ -6,8 +6,13 @@ import { todosRouter } from "./routes/todos";
 
 export const app = express();
 
+try {
+  process.loadEnvFile();
+} catch {
+  // No .env file: fine, the variables may come from the environment.
+}
 // The React app runs on another origin (http://localhost:5173), so the browser needs CORS headers.
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(express.json());
 
 app.get("/api/health", (_request, response) => {
