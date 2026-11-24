@@ -1,5 +1,9 @@
-// Design only. TODO: give the input a value and an onChange to filter the todos.
-export default function SearchBar() {
+type SearchBarProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
+
+export default function SearchBar({ value, onChange }: SearchBarProps) {
   return (
     <div className="relative">
       <label htmlFor="search" className="sr-only">
@@ -21,6 +25,8 @@ export default function SearchBar() {
         id="search"
         type="search"
         placeholder="Search todos…"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
       />
     </div>

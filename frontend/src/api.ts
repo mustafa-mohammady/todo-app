@@ -2,8 +2,14 @@ import { Todo } from "./types";
 
 // The backend allows requests from http://localhost:5173 (CORS), so the frontend can call it directly.
 export const API_URL = "http://localhost:3010/api/";
-export const fetcher = (url: string) =>
-  fetch(url).then((response) => response.json());
+// Throws when the server answers with an error, so SWR puts it in `error` instead of `data`.
+export const fetcher = async (url: string) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Could not load the todos");
+  }
+  return response.json();
+};
 
 // Put all functions that talk to the API here (fetcher for `useSWR`, create, update, delete),
 // so that your components never call `fetch` themselves.
