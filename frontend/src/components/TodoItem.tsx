@@ -4,18 +4,17 @@ type TodoItemProps = {
   todo: Todo;
   onEdit: () => void;
   onDelete: () => void;
+  onToggle: () => void;
 };
 
-// TODO: add onChange to the checkbox.
-export default function TodoItem({ todo, onEdit, onDelete }: TodoItemProps) {
+export default function TodoItem({
+  todo,
+  onEdit,
+  onDelete,
+  onToggle,
+}: TodoItemProps) {
   return (
     <li className="flex items-center gap-3 px-4 py-3 sm:px-6">
-      <input
-        type="checkbox"
-        defaultChecked={todo.done}
-        aria-label={`Mark "${todo.title}" as done`}
-        className="size-5 shrink-0 cursor-pointer accent-indigo-600"
-      />
       <span
         className={`min-w-0 flex-1 break-words text-sm ${
           todo.done ? "text-slate-400 line-through" : "text-slate-800"
@@ -24,6 +23,52 @@ export default function TodoItem({ todo, onEdit, onDelete }: TodoItemProps) {
         {todo.title}
       </span>
       <div className="flex shrink-0 items-center gap-1">
+        {/* Mark as done: green filled check when done, grey outline when not. */}
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-pressed={todo.done}
+          aria-label={
+            todo.done
+              ? `Mark "${todo.title}" as not done`
+              : `Mark "${todo.title}" as done`
+          }
+          title={todo.done ? "Mark as not done" : "Mark as done"}
+          className={`inline-flex size-10 cursor-pointer items-center justify-center rounded-lg transition-colors ${
+            todo.done
+              ? "text-emerald-600 hover:bg-emerald-50"
+              : "text-slate-400 hover:bg-emerald-50 hover:text-emerald-600"
+          }`}
+        >
+          {todo.done ? (
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="size-5"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          ) : (
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="size-5"
+            >
+              <circle cx="10" cy="10" r="7.25" />
+              <path d="m7 10.25 2 2 4-4.5" />
+            </svg>
+          )}
+        </button>
         <button
           type="button"
           onClick={onEdit}

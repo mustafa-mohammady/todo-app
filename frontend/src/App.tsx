@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Todo } from "./types";
-import { API_URL, fetcher } from "./api";
+import { API_URL, fetcher, updateTodo } from "./api";
 import AddTodoForm from "./components/AddTodoForm";
 import SearchBar from "./components/SearchBar";
 import TodoItem from "./components/TodoItem";
@@ -24,6 +24,19 @@ export default function App() {
   // The text of the notification, or null when no notification is showing.
   const [notification, setNotification] = useState<string | null>(null);
 
+  // The text in the search box. Only todos whose title contains it are shown.
+  const [search, setSearch] = useState("");
+  const searchText = search.trim().toLowerCase();
+  const visibleTodos = todos.filter((todo) =>
+    todo.title.toLowerCase().includes(searchText),
+  );
+
+  // Ticking the checkbox saves the opposite of the current `done` value.
+  const handleToggle = async (todo: Todo) => {
+    await updateTodo(todo.id, todo.title, !todo.done);
+    mutate();
+  };
+
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-10 sm:py-16">
       <div className="mx-auto max-w-xl overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
@@ -38,21 +51,37 @@ export default function App() {
 
         <div className="space-y-3 border-b border-slate-200 px-4 py-5 sm:px-6">
           <AddTodoForm onAdded={() => mutate()} />
-          <SearchBar />
+          <SearchBar value={search} onChange={setSearch} />
         </div>
 
-        {todos.length === 0 ? (
+        {isLoading ? (
+          <p className="px-4 py-12 text-center text-sm text-slate-500 sm:px-6">
+            Loading todos…
+          </p>
+        ) : error ? (
+          <p
+            role="alert"
+            className="px-4 py-12 text-center text-sm text-red-600 sm:px-6"
+          >
+            Could not load the todos. Is the backend running?
+          </p>
+        ) : todos.length === 0 ? (
           <p className="px-4 py-12 text-center text-sm text-slate-500 sm:px-6">
             No todos yet. Add your first one above.
           </p>
+        ) : visibleTodos.length === 0 ? (
+          <p className="px-4 py-12 text-center text-sm break-words text-slate-500 sm:px-6">
+            No todos match “{search.trim()}”.
+          </p>
         ) : (
           <ul className="divide-y divide-slate-100">
-            {todos.map((todo) => (
+            {visibleTodos.map((todo) => (
               <TodoItem
                 key={todo.id}
                 todo={todo}
                 onEdit={() => setEditingTodo(todo)}
                 onDelete={() => setDeletingTodo(todo)}
+                onToggle={() => handleToggle(todo)}
               />
             ))}
           </ul>

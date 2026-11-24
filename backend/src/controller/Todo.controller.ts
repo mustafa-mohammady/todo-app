@@ -26,7 +26,7 @@ export const updateTodo = async (request: Request, response: Response) => {
   const task = await tasksModel.findByIdAndUpdate(
     id,
     { title: request.body.title, done: request.body.done },
-    { new: true, runValidators: true },
+    { returnDocument: "after", runValidators: true },
   );
   if (!task) {
     response.status(404).json({ error: "Todo not found" });

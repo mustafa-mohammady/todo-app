@@ -9,7 +9,6 @@ type EditTodoModalProps = {
   onUpdated: () => void;
 };
 
-// Design only. TODO: add an onSubmit to the form that calls updateTodo(id, title, done).
 export default function EditTodoModal({
   todo,
   open,
@@ -25,16 +24,14 @@ export default function EditTodoModal({
     const formEelement = e.currentTarget;
     const formData = new FormData(formEelement);
     const title = String(formData.get("title")).trim();
-    const done = formData.get("done") === "on";
     const id = todo.id;
     if (title !== "") {
-      await updateTodo(id, title, done);
+      // Done is changed with the button on the row, so keep its current value here.
+      await updateTodo(id, title, todo.done);
       onUpdated();
       onClose();
     }
   };
-
-  console.log(todo);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
@@ -91,16 +88,6 @@ export default function EditTodoModal({
               className="h-10 w-full rounded-lg border border-slate-200 px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
             />
           </div>
-
-          <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-slate-200 px-3 py-2.5 transition-colors hover:bg-slate-50">
-            <input
-              name="done"
-              type="checkbox"
-              defaultChecked={todo.done}
-              className="size-5 shrink-0 cursor-pointer accent-indigo-600"
-            />
-            <span className="text-sm text-slate-700">Mark as done</span>
-          </label>
 
           <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <button
